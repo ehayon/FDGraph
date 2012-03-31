@@ -1,8 +1,3 @@
-function Graph() {
-	this.nodes = [];
-	this.edges = [];
-}
-
 function Node(x, y) {
 	Circle.call(this, x, y, 30);
 }
@@ -16,6 +11,7 @@ function Connection(node_a, node_b) {
 	this.draggable = false;
 }
 Connection.prototype = Object.create(new Line());
+// we need to override the draw method so it updates on a redraw
 Connection.prototype.draw = function(ctx) {
 	ctx.strokeStyle = "#B2B2B2";
 	ctx.beginPath();
