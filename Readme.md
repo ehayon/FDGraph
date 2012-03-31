@@ -1,5 +1,5 @@
-##HTML5 Canvas
-#####Add drag-and-drop functionality to an HTML5 canvas
+##HTML5 Canvas Graph (data structure)
+#####Implement a graph data structure using HTML5 canvas 
 
 #####To create a node:
 ```javascript
