@@ -1,9 +1,10 @@
-##HTML5 Canvas
+##HTML5 Canvas Graph (data structure)
+##### Created by Ethan Hayon
+
+##### Visualization of a graph data structure using HTML5 canvas
 
 #####Demo
 > http://ethanhayon.com/Canvas/
-
-#####Add drag-and-drop functionality to an HTML5 canvas
 
 #####Get the canvas element from the DOM
 ```javascript
