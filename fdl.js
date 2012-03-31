@@ -15,11 +15,6 @@ Shape.prototype.contains = function(mx, my) {
   return  (this.x <= mx) && (this.x + this.w >= mx) &&
           (this.y <= my) && (this.y + this.h >= my);
 }
-Shape.prototype.drawBorder = function(ctx) {
-	ctx.strokeStyle = "#FF1100";
-	ctx.strokeRect(this.x, this.y, this.w, this.h);
-}
-
 /* canvas state is needed to keep track of shapes currently drawn on our canvas */
 function Canvas(canvas)
 {
@@ -42,7 +37,6 @@ function Canvas(canvas)
 		for(var i = 0; i < shapes.length; i++) {
 			if(shapes[i].contains(e.x, e.y)) {
 				mystate.selection = shapes[i];
-				shapes[i].drawBorder(mystate.ctx);
 		        mystate.dragoffx = e.x - mystate.selection.x;
 		        mystate.dragoffy = e.y - mystate.selection.y;
 				mystate.valid = false;
@@ -53,6 +47,7 @@ function Canvas(canvas)
 		if(mystate.dragging) {
 			// we are currently dragging a shape
 			mystate.valid = false;	// canvas has changed
+			mystate.selection = null;
 			mystate.dragging = false;
 		}
 	});
@@ -87,7 +82,7 @@ Canvas.prototype.draw = function() {
 		shapes[i].draw(this.ctx);
 	}
     if(this.selection != null) {
-    	this.ctx.strokeColor = "#FF0000";
+		this.ctx.strokeStyle = "#00FF00";
 		this.ctx.strokeRect(this.selection.x, this.selection.y, this.selection.w, this.selection.h);
     }
 	this.valid = true;		
