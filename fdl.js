@@ -11,9 +11,9 @@ Shape.prototype.draw = function(ctx) {
 	ctx.fillStyle = this.fill;
 	ctx.fillRect(this.x, this.y, this.w, this.h);
 }
-Shape.prototype.contains = function(mx, my) {
-  return  (this.x <= mx) && (this.x + this.w >= mx) &&
-          (this.y <= my) && (this.y + this.h >= my);
+Shape.prototype.contains = function(ex, ey) {
+  return  (this.x <= ex) && (this.x + this.w >= ex) &&
+          (this.y <= ey) && (this.y + this.h >= ey);
 }
 Shape.prototype.drawBorder = function(ctx) {
 	ctx.strokeStyle = "#00FF00";
@@ -44,6 +44,10 @@ Circle.prototype.drawBorder = function(ctx) {
 	ctx.arc(this.x, this.y, this.d/2, 0, Math.PI*2, true);
 	ctx.closePath();
 	ctx.stroke();
+}
+Circle.prototype.contains = function(ex, ey) {
+	var distance = Math.sqrt(((ex - this.x)*(ex - this.x)) + ((ey - this.y)*(ey - this.y)));
+	return(distance <= this.d/2);
 }
 
 /* canvas state is needed to keep track of shapes currently drawn on our canvas */
