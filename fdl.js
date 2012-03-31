@@ -15,6 +15,37 @@ Shape.prototype.contains = function(mx, my) {
   return  (this.x <= mx) && (this.x + this.w >= mx) &&
           (this.y <= my) && (this.y + this.h >= my);
 }
+Shape.prototype.drawBorder = function(ctx) {
+	ctx.strokeStyle = "#00FF00";
+	ctx.strokeRect(this.x, this.y, this.w, this.h);
+}
+
+function Rectangle(x, y, w, h) {
+	Shape.apply(this, arguments);
+}
+Rectangle.prototype = Object.create(new Shape());
+
+function Circle(x, y, d) {
+	Shape.call(this, x, y, d, d);
+	this.d = d;
+}
+Circle.prototype = Object.create(new Shape());
+
+Circle.prototype.draw = function(ctx) {
+	ctx.fillStyle = "#b2b2b2";
+	ctx.beginPath();
+	ctx.arc(this.x, this.y, this.d/2, 0, Math.PI*2, true);
+	ctx.closePath();
+	ctx.fill();
+}
+Circle.prototype.drawBorder = function(ctx) {
+	ctx.strokeStyle = "#00FF00";
+	ctx.beginPath();
+	ctx.arc(this.x, this.y, this.d/2, 0, Math.PI*2, true);
+	ctx.closePath();
+	ctx.stroke();
+}
+
 /* canvas state is needed to keep track of shapes currently drawn on our canvas */
 function Canvas(canvas)
 {
@@ -60,6 +91,7 @@ function Canvas(canvas)
 		}
 	});
 }
+
 Canvas.prototype.add = function(shape) {
 	this.shapes.push(shape);
 	this.valid = false;
@@ -82,19 +114,20 @@ Canvas.prototype.draw = function() {
 		shapes[i].draw(this.ctx);
 	}
     if(this.selection != null) {
-		this.ctx.strokeStyle = "#00FF00";
-		this.ctx.strokeRect(this.selection.x, this.selection.y, this.selection.w, this.selection.h);
+		this.selection.drawBorder(this.ctx);
     }
 	this.valid = true;		
 	
 }
 $(document).ready(function() {
 	var can = document.getElementById("can");
-	var shape1 = new Shape(110, 200, 90, 30);
-	var shape2 = new Shape(10, 10, 40, 40);
+	var shape1 = new Rectangle(110, 200, 90, 30);
+	var shape2 = new Rectangle(10, 10, 40, 40);
+	var circle1 = new Circle(150, 150, 50);
 	var myCanvas = new Canvas(can);
 	myCanvas.add(shape1);
 	myCanvas.add(shape2);
+	myCanvas.add(circle1);
 	setInterval(function() { myCanvas.redraw(); }, 10);
 
 });
