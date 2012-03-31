@@ -1,9 +1,15 @@
 /* Shapes can be drawn on the canvas */
+/*
+ * Shape
+ * x - x position
+ * y - y position
+ * w - width
+ * h - height
+ */
+
 function Shape(x, y, w, h) {
 	this.x = x || 0;
 	this.y = y || 0;
-	this.w = w || 10;
-	this.h = h || 10;
 	this.fill = "#000";
 }
 
@@ -20,17 +26,34 @@ Shape.prototype.drawBorder = function(ctx) {
 	ctx.strokeRect(this.x, this.y, this.w, this.h);
 }
 
+/*
+ * Rectangle
+ * superclass: Shape
+ * x - x position
+ * y - y position
+ * w - width
+ * h - height
+ */
 function Rectangle(x, y, w, h) {
 	Shape.apply(this, arguments);
+	this.w = w || 10;
+	this.h = h || 10;
 }
 Rectangle.prototype = Object.create(new Shape());
+
+/*
+ * Circle
+ * superclass: Shape
+ * x - x position
+ * y - y position
+ * d - diameter
+ */
 
 function Circle(x, y, d) {
 	Shape.call(this, x, y, d, d);
 	this.d = d;
 }
 Circle.prototype = Object.create(new Shape());
-
 Circle.prototype.draw = function(ctx) {
 	ctx.fillStyle = "#b2b2b2";
 	ctx.beginPath();
@@ -49,6 +72,8 @@ Circle.prototype.contains = function(ex, ey) {
 	var distance = Math.sqrt(((ex - this.x)*(ex - this.x)) + ((ey - this.y)*(ey - this.y)));
 	return(distance <= this.d/2);
 }
+
+
 
 /* canvas state is needed to keep track of shapes currently drawn on our canvas */
 function Canvas(canvas)
@@ -95,7 +120,6 @@ function Canvas(canvas)
 		}
 	});
 }
-
 Canvas.prototype.add = function(shape) {
 	this.shapes.push(shape);
 	this.valid = false;
@@ -123,6 +147,9 @@ Canvas.prototype.draw = function() {
 	this.valid = true;		
 	
 }
+/* end of Canvas */
+
+
 $(document).ready(function() {
 	var can = document.getElementById("can");
 	var shape1 = new Rectangle(110, 200, 90, 30);
