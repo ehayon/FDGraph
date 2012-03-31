@@ -101,8 +101,9 @@ function Canvas(canvas)
 	this.dragoffy = 0;
 	this.shapes = [];
 	this.ctx = canvas.getContext("2d");
-	
+		
 	var mystate = this;
+	setInterval(function() { mystate.redraw(); }, 10);
 	
 	canvas.addEventListener("mousedown", function(e) {
 		var shapes = mystate.shapes
@@ -167,6 +168,7 @@ $(document).ready(function() {
 	var can = document.getElementById("can");
 	var myCanvas = new Canvas(can);
 	
+	// create some nodes and connections
 	var node1 = new Node(300, 200);
 	var node2 = new Node(200, 500);
 	var node3 = new Node(400, 200);
@@ -174,15 +176,12 @@ $(document).ready(function() {
 	var connection2 = new Connection(node2, node3);
 	var connection3 = new Connection(node1, node3);
 	
-	
-	
+	// add elements to the canvas object
 	myCanvas.add(connection1);	
 	myCanvas.add(connection2);
 	myCanvas.add(connection3);
 	myCanvas.add(node1);
 	myCanvas.add(node2);
 	myCanvas.add(node3);
-
-	setInterval(function() { myCanvas.redraw(); }, 10);
 
 });
