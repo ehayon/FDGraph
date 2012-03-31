@@ -108,11 +108,15 @@ function Canvas(canvas)
 	canvas.addEventListener("mousedown", function(e) {
 		var shapes = mystate.shapes
 		mystate.dragging = true;
+
+		var x = e.x + document.body.scrollLeft - $(canvas).offset().left;
+		var y = e.y + document.body.scrollTop - $(canvas).offset().top;
+
 		for(var i = 0; i < shapes.length; i++) {
-			if(shapes[i].draggable && shapes[i].contains(e.x, e.y)) {
+			if(shapes[i].draggable && shapes[i].contains(x, y)) {
 				mystate.selection = shapes[i];
-		        mystate.dragoffx = e.x - mystate.selection.x;
-		        mystate.dragoffy = e.y - mystate.selection.y;
+		        mystate.dragoffx = x - mystate.selection.x;
+		        mystate.dragoffy = y - mystate.selection.y;
 				mystate.valid = false;
 			}
 		}
@@ -126,10 +130,14 @@ function Canvas(canvas)
 		}
 	});
 	canvas.addEventListener("mousemove", function(e) {
+
 		if(mystate.selection != null && mystate.dragging) {
+            var x = e.x + document.body.scrollLeft - $(canvas).offset().left;
+            var y = e.y + document.body.scrollTop - $(canvas).offset().top;
+
 			var selected = mystate.selection;
-			mystate.selection.x = e.x - mystate.dragoffx;
-			mystate.selection.y = e.y - mystate.dragoffy;
+			mystate.selection.x = x - mystate.dragoffx;
+			mystate.selection.y = y - mystate.dragoffy;
 			mystate.valid = false;		
 		}
 	});
