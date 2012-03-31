@@ -43,6 +43,8 @@ function Canvas(canvas)
 			if(shapes[i].contains(e.x, e.y)) {
 				mystate.selection = shapes[i];
 				shapes[i].drawBorder(mystate.ctx);
+		        mystate.dragoffx = e.x - mystate.selection.x;
+		        mystate.dragoffy = e.y - mystate.selection.y;
 				mystate.valid = false;
 			}
 		}
@@ -50,7 +52,16 @@ function Canvas(canvas)
 	canvas.addEventListener("mouseup", function(e) {
 		if(mystate.dragging) {
 			// we are currently dragging a shape
-			this.valid = false;	// canvas has changed
+			mystate.valid = false;	// canvas has changed
+			mystate.dragging = false;
+		}
+	});
+	canvas.addEventListener("mousemove", function(e) {
+		if(mystate.selection != null && mystate.dragging) {
+			var selected = mystate.selection;
+			mystate.selection.x = e.x - mystate.dragoffx;
+			mystate.selection.y = e.y - mystate.dragoffy;
+			mystate.valid = false;		
 		}
 	});
 }
@@ -89,6 +100,6 @@ $(document).ready(function() {
 	var myCanvas = new Canvas(can);
 	myCanvas.add(shape1);
 	myCanvas.add(shape2);
-	setInterval(function() { myCanvas.redraw(); }, 30);
+	setInterval(function() { myCanvas.redraw(); }, 10);
 
 });
