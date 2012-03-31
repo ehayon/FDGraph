@@ -56,7 +56,7 @@ function Circle(x, y, d) {
 }
 Circle.prototype = Object.create(new Shape());
 Circle.prototype.draw = function(ctx) {
-	ctx.fillStyle = "#b2b2b2";
+	ctx.fillStyle = "#000000";
 	ctx.beginPath();
 	ctx.arc(this.x, this.y, this.d/2, 0, Math.PI*2, true);
 	ctx.closePath();
@@ -169,11 +169,19 @@ $(document).ready(function() {
 	
 	var node1 = new Node(300, 200);
 	var node2 = new Node(200, 500);
+	var node3 = new Node(400, 200);
 	var connection1 = new Connection(node1, node2);
+	var connection2 = new Connection(node2, node3);
+	var connection3 = new Connection(node1, node3);
 	
+	
+	
+	myCanvas.add(connection1);	
+	myCanvas.add(connection2);
+	myCanvas.add(connection3);
 	myCanvas.add(node1);
 	myCanvas.add(node2);
-	myCanvas.add(connection1);
+	myCanvas.add(node3);
 
 	setInterval(function() { myCanvas.redraw(); }, 10);
 
