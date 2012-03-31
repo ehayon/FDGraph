@@ -7,10 +7,11 @@
  * h - height
  */
 
-function Shape(x, y, w, h) {
+function Shape(x, y) {
 	this.x = x || 0;
 	this.y = y || 0;
 	this.fill = "#000";
+	this.draggable = true;
 }
 
 Shape.prototype.draw = function(ctx) {
@@ -50,7 +51,7 @@ Rectangle.prototype = Object.create(new Shape());
  */
 
 function Circle(x, y, d) {
-	Shape.call(this, x, y, d, d);
+	Shape.call(this, x, y);
 	this.d = d;
 }
 Circle.prototype = Object.create(new Shape());
@@ -73,7 +74,19 @@ Circle.prototype.contains = function(ex, ey) {
 	return(distance <= this.d/2);
 }
 
-
+function Line(x1, y1, x2, y2) {
+	this.x1 = x1; 
+	this.y1 = y1;
+	this.x2 = x2; 
+	this.y2 = y2;
+}
+Line.prototype.draw = function(ctx) {
+	ctx.strokeStyle = "#B2B2B2";
+	ctx.beginPath();
+	ctx.moveTo(this.x1, this.y1);
+	ctx.lineTo(this.x2, this.y2);
+	ctx.stroke();
+}
 
 /* canvas state is needed to keep track of shapes currently drawn on our canvas */
 function Canvas(canvas)
@@ -95,7 +108,7 @@ function Canvas(canvas)
 		var shapes = mystate.shapes
 		mystate.dragging = true;
 		for(var i = 0; i < shapes.length; i++) {
-			if(shapes[i].contains(e.x, e.y)) {
+			if(shapes[i].draggable && shapes[i].contains(e.x, e.y)) {
 				mystate.selection = shapes[i];
 		        mystate.dragoffx = e.x - mystate.selection.x;
 		        mystate.dragoffy = e.y - mystate.selection.y;
@@ -152,13 +165,16 @@ Canvas.prototype.draw = function() {
 
 $(document).ready(function() {
 	var can = document.getElementById("can");
-	var shape1 = new Rectangle(110, 200, 90, 30);
-	var shape2 = new Rectangle(10, 10, 40, 40);
-	var circle1 = new Circle(150, 150, 50);
 	var myCanvas = new Canvas(can);
-	myCanvas.add(shape1);
-	myCanvas.add(shape2);
-	myCanvas.add(circle1);
+	
+	var node1 = new Node(300, 200);
+	var node2 = new Node(200, 500);
+	var connection1 = new Connection(node1, node2);
+	
+	myCanvas.add(node1);
+	myCanvas.add(node2);
+	myCanvas.add(connection1);
+
 	setInterval(function() { myCanvas.redraw(); }, 10);
 
 });
