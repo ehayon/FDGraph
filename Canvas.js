@@ -172,26 +172,21 @@ Canvas.prototype.draw = function() {
 	//console.log(this.canvas.offsetLeft);
 	for(var i = 0; i < shapes.length; i++) {		
 		// do not let shapes exit the screen
-		console.log(this.canvas.height);
 		if(shapes[i].x <= this.canvas.offsetLeft) {
 			shapes[i].x = 0;
 			shapes[i].netvelocityx *= -1;
-			console.log("Left left");
 		}
 		if(shapes[i].x >= (this.canvas.offsetLeft + this.canvas.width)) {
 			shapes[i].x = (this.canvas.offsetLeft + this.canvas.width);
 			shapes[i].netvelocityx *= -1;
-			console.log("Left right");	
 		}
 		if(shapes[i].y <= this.canvas.offsetTop) {
 			shapes[i].y = 0;
 			shapes[i].netvelocityy *= -1;
-			console.log("Left top");
 		}
 		if(shapes[i].y >= (this.canvas.offsetTop + this.canvas.height)) {
 			shapes[i].y = this.canvas.offsetTop + this.canvas.height;
 			shapes[i].netvelocityy *= -1;
-			console.log("Left bottom");
 		}
 		
 		
