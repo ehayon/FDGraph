@@ -57,7 +57,7 @@ Graph.prototype.checkRedraw = function() {
 						var rep_distance = Math.max(Math.sqrt(((node.x - rep_node.x)*(node.x - rep_node.x)) + ((node.y - rep_node.y)*(node.y - rep_node.y))), 1);
 						var rep_angle = Math.sin((rep_node.y - node.y) / rep_distance);
 						// calculate repulsion force between nodes
-						var rep_force = -1 * (100000/(rep_distance*rep_distance));
+						var rep_force = -1 * (500000/(rep_distance*rep_distance));
 						node.netforcex += rep_force * Math.sin((rep_node.x - node.x)/rep_distance);
 						node.netforcey += rep_force * Math.sin((rep_node.y - node.y)/rep_distance);		
 					}
