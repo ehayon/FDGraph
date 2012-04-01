@@ -40,8 +40,7 @@ Graph.prototype.checkRedraw = function() {
 		node.netforcey = 0;
 		node.velocityx = 0;
 		node.velocityy = 0;
-		if(this.canvas.selected == null || this.canvas.selected != node) {
-		
+		if(this.canvas.selection == null || this.canvas.selection != node) {
 			for(var j = 0; j < this.connections.length; j++) {
 				var con = this.connections[j];
 				if(con.a == node || con.b == node) {
@@ -69,9 +68,6 @@ Graph.prototype.checkRedraw = function() {
 					node.velocityx = (node.netforcex == 0) ? 0 : (node.velocityx + this.timestep * node.netforcex) * this.damping;
 					node.velocityy = (node.netforcey == 0) ? 0 : (node.velocityy + this.timestep * node.netforcey) * this.damping;
 					var velocity = Math.abs(Math.sqrt((node.velocityx*node.velocityx) + (node.velocityy*node.velocityy)));
-			
-
-					//console.log("forcex = " + node.netforcex + " | forcey = " + node.netforcey);
 				}
 			}	
 		}
