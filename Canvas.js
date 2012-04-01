@@ -89,7 +89,10 @@ Line.prototype.draw = function(ctx) {
 	ctx.stroke();
 }
 
-/* canvas state is needed to keep track of shapes currently drawn on our canvas */
+/* 
+ * Canvas is a static object
+ * we need to create a Canvas object to store all of the shapes for redraw
+ */
 function Canvas(canvas)
 {
 	this.width = canvas.width;
