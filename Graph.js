@@ -4,14 +4,19 @@ function Graph(canvas_object) {
 	this.canvas = canvas_object;
 	this.damping = .00001;
 	var myGraph = this;
-	setInterval(function() { myGraph.checkRedraw() }, 30);
+	setInterval(function() { 
+			myGraph.checkRedraw();
+		
+	}, 20);
 	// add elements to the canvas object
-	this.timestep = 0;
-	this.kineticenergy = 0;
+	this.timestep = 1;
+	this.kineticenergy = 1;
+	this.running = true;
 }
 Graph.prototype.addNode = function(node) {
 	this.nodes.push(node);
 	this.canvas.add(node);
+	this.checkRedraw();
 }
 Graph.prototype.addConnection = function(connection) {
 	this.connections.push(connection);
@@ -20,7 +25,7 @@ Graph.prototype.addConnection = function(connection) {
 Graph.prototype.checkRedraw = function() {
 	// compute the force on each connection
 	// only update if net force is greater than threshold
-	
+	this.kineticenergy = 0;
 	for(var i = 0; i < this.nodes.length; i++) {
 		var node = this.nodes[i];
 		node.netforcex = 0;
@@ -38,24 +43,34 @@ Graph.prototype.checkRedraw = function() {
 				var angle = Math.sin((other_node.y - node.y) / distance);
 				
 				
-				node.netforcex += 1 * force * Math.sin((other_node.x - node.x)/distance);
-				node.netforcey += 1 * force * Math.sin((other_node.y - node.y)/distance);
-
+				node.netforcex += force * Math.sin((other_node.x - node.x)/distance);
+				node.netforcey += force * Math.sin((other_node.y - node.y)/distance);
+				
+				for(var k = 0; k < this.nodes.length; k++) {
+					var rep_node = this.nodes[k];
+					var rep_distance = Math.max(Math.sqrt(((node.x - rep_node.x)*(node.x - rep_node.x)) + ((node.y - rep_node.y)*(node.y - rep_node.y))), 1);
+					var rep_angle = Math.sin((rep_node.y - node.y) / rep_distance);
+					// calculate repulsion force between nodes
+					var rep_force = -1 * (10000/(rep_distance*rep_distance));
+					node.netforcex += rep_force * Math.sin((rep_node.x - node.x)/rep_distance);
+					node.netforcey += rep_force * Math.sin((rep_node.y - node.y)/rep_distance);		
+				}
 				node.velocityx = (node.velocityx + this.timestep * node.netforcex) * this.damping;
 				node.velocityy = (node.velocityy + this.timestep * node.netforcey) * this.damping;
-
-
+				var velocity = Math.abs(Math.sqrt((node.velocityx*node.velocityx) + (node.velocityy*node.velocityy)));
+				this.kineticenergy = node.mass * (velocity*velocity);
+				console.log(this.kineticenergy);
+				//console.log(node.netforcex);
+				
 			}
-		}
-
-	
+		}	
 		node.x += node.velocityx * this.timestep;
 		node.y += node.velocityy * this.timestep;
-	}
-	
-	
+		//console.log(this.kineticenergy);
+	}	
 	this.timestep++;
 	this.canvas.valid = false;
+
 }
 
 function Node() {
@@ -64,7 +79,7 @@ function Node() {
 	console.log("("+this.x+", "+this.y+")");
 	Circle.call(this, this.x, this.y, 30);
 	this.charge = 40;
-	this.mass = 1;
+	this.mass = 100;
 	this.velocityx = 0;
 	this.velocityy = 0;
 	this.netforcex = 0;
