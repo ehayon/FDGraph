@@ -42,7 +42,7 @@ Graph.prototype.checkRedraw = function() {
 				//node.netforcex += ((node.charge*other_node.charge)/(distance * distance))*Math.cos((other_node.x - node.x)/(distance));
 				//node.netforcey += ((node.charge*other_node.charge)/(distance * distance))*Math.sin((other_node.x - node.x)/(distance));
 				var dist = Math.max(distance, 1);
-				var force = .1 * (distance - 100);
+				var force = .1 * Math.min(distance, 100);
 				var angle = Math.sin((other_node.y - node.y) / distance);
 				
 				
@@ -59,8 +59,8 @@ Graph.prototype.checkRedraw = function() {
 					node.netforcey += rep_force * Math.sin((rep_node.y - node.y)/rep_distance);		
 				}
 				
-				node.netforcex = (Math.abs(node.netforcex) < 1) ? 0 : node.netforcex;
-				node.netforcey = (Math.abs(node.netforcey) < 1) ? 0 : node.netforcey;
+				node.netforcex = (Math.abs(node.netforcex) < 1.5) ? 0 : node.netforcex;
+				node.netforcey = (Math.abs(node.netforcey) < 1.5) ? 0 : node.netforcey;
 
 				node.velocityx = (node.velocityx + this.timestep * node.netforcex) * this.damping;
 				node.velocityy = (node.velocityy + this.timestep * node.netforcey) * this.damping;

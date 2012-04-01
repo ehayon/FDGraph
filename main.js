@@ -11,20 +11,21 @@ $(document).ready(function() {
 	var node6 = new Node();
 	var node7 = new Node();
 	var node8 = new Node();
+	var node9 = new Node();
+	var node10 = new Node();
+
 	
 	var connection1 = new Connection(node1, node2);
 	var connection2 = new Connection(node2, node3);
 	var connection3 = new Connection(node3, node4);
 	var connection4 = new Connection(node4, node5);
-	var connection5 = new Connection(node5, node6);
-	var connection6 = new Connection(node6, node7);
-	var connection7 = new Connection(node7, node8);
-	var connection8 = new Connection(node1, node8);
-	var connection9 = new Connection(node1, node7);
-	var connection10 = new Connection(node2, node6);
-	var connection11 = new Connection(node3, node5);
-	var connection12 = new Connection(node4, node2);
-	
+	var connection5 = new Connection(node5, node1);
+	var connection6 = new Connection(node1, node6);
+	var connection7 = new Connection(node2, node7);
+	var connection8 = new Connection(node3, node8);
+	var connection9 = new Connection(node4, node9);
+	var connection10 = new Connection(node5, node10);
+
 
 	
 
@@ -38,9 +39,8 @@ $(document).ready(function() {
 	myGraph.addConnection(connection8);
 	myGraph.addConnection(connection9);
 	myGraph.addConnection(connection10);
-	myGraph.addConnection(connection11);
-	myGraph.addConnection(connection12);
-	
+
+
 
 	myGraph.addNode(node1);
 	myGraph.addNode(node2);
@@ -50,6 +50,8 @@ $(document).ready(function() {
 	myGraph.addNode(node6);
 	myGraph.addNode(node7);
 	myGraph.addNode(node8);
+	myGraph.addNode(node9);
+	myGraph.addNode(node10);
 
 	
 	
