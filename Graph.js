@@ -5,10 +5,10 @@ function Graph(canvas_object) {
 	this.damping = .000001;
 	var myGraph = this;
 	setInterval(function() { 
-		if(!myGraph.canvas.dragging) {
+		//if(!myGraph.canvas.dragging) {
 			myGraph.checkRedraw();
-		}
-	}, 10);
+			//}
+	}, 20);
 	// add elements to the canvas object
 	this.timestep = 1;
 	this.kineticenergy = 1;
@@ -38,11 +38,7 @@ Graph.prototype.checkRedraw = function() {
 			if(con.a == node || con.b == node) {
 				var other_node = (con.a == node) ? con.b : con.a;
 				var distance = Math.sqrt(((node.x - other_node.x)*(node.x - other_node.x)) + ((node.y - other_node.y)*(node.y - other_node.y)));
-				
-				//node.netforcex += ((node.charge*other_node.charge)/(distance * distance))*Math.cos((other_node.x - node.x)/(distance));
-				//node.netforcey += ((node.charge*other_node.charge)/(distance * distance))*Math.sin((other_node.x - node.x)/(distance));
-				var dist = Math.max(distance, 1);
-				var force = .1 * Math.min(distance, 100);
+				var force = .1 * Math.max(distance + 350, 1);
 				var angle = Math.sin((other_node.y - node.y) / distance);
 				
 				
