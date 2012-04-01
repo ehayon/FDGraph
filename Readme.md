@@ -1,8 +1,6 @@
 ##HTML5 Canvas Graph (data structure)
 ##### Created by Ethan Hayon
 
-##### Visualization of a graph data structure using HTML5 canvas
-
 #####Demo
 > http://ethanhayon.com/Canvas/
 
