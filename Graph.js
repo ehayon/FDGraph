@@ -2,7 +2,7 @@ function Graph(canvas_object) {
 	this.nodes = [];
 	this.connections = [];
 	this.canvas = canvas_object;
-	this.damping = .000000001;
+	this.damping = .0000001;
 	var myGraph = this;
 	setInterval(function() { myGraph.checkRedraw() }, 10);
 	// add elements to the canvas object
@@ -20,9 +20,8 @@ Graph.prototype.addConnection = function(connection) {
 Graph.prototype.checkRedraw = function() {
 	// compute the force on each connection
 	// only update if net force is greater than threshold
-	
-	var node = this.nodes[1];
 	for(var i = 0; i < this.nodes.length; i++) {
+		var node = this.nodes[i];
 		for(var j = 0; j < this.connections.length; j++) {
 			var con = this.connections[j];
 			if(con.a == node || con.b == node) {
@@ -32,13 +31,13 @@ Graph.prototype.checkRedraw = function() {
 				node.netforcey += (-.0005) * (node.y - other_node.y);
 			}
 		}
+		node.velocityx = (node.velocityx + this.timestep * node.netforcex) * this.damping;
+		node.velocityy = (node.velocityy + this.timestep * node.netforcey) * this.damping;
+	
+		node.x += node.velocityx * this.timestep;
+		node.y += node.velocityy * this.timestep;
 	}
 	
-	node.velocityx = (node.velocityx + this.timestep * node.netforcex) * this.damping;
-	node.velocityy = (node.velocityy + this.timestep * node.netforcey) * this.damping;
-	
-	node.x += node.velocityx * this.timestep;
-	node.y += node.velocityy * this.timestep;
 	
 	this.timestep++;
 	this.canvas.valid = false;
