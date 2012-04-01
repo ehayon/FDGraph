@@ -16,11 +16,11 @@ var myCanvas = new Canvas(canvas);
 
 #####To create a node:
 ```javascript
-var node = new Node(x, y);
+var node = new Node();
 ```
 ```javascript
-var node1 = new Node(100, 200);
-var node2 = new Node(200, 300);
+var node1 = new Node();
+var node2 = new Node();
 ```
 
 #####To create a connection between two nodes:
