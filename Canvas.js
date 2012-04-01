@@ -120,7 +120,7 @@ function Canvas(canvas)
 				mystate.valid = false;
 			}
 		}
-	});
+	}, false);
 	canvas.addEventListener("mouseup", function(e) {
 		if(mystate.dragging) {
 			// we are currently dragging a shape
@@ -128,7 +128,7 @@ function Canvas(canvas)
 			mystate.selection = null;
 			mystate.dragging = false;
 		}
-	});
+	}, false);
 	canvas.addEventListener("mousemove", function(e) {
 
 		if(mystate.selection != null && mystate.dragging) {
@@ -140,7 +140,7 @@ function Canvas(canvas)
 			mystate.selection.y = y - mystate.dragoffy;
 			mystate.valid = false;		
 		}
-	});
+	}, false);
 }
 Canvas.prototype.add = function(shape) {
 	this.shapes.push(shape);
