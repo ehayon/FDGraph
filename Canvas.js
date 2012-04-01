@@ -17,6 +17,7 @@ function Shape(x, y) {
 Shape.prototype.draw = function(ctx) {
 	ctx.fillStyle = this.fill;
 	ctx.fillRect(this.x, this.y, this.w, this.h);
+	
 }
 Shape.prototype.contains = function(ex, ey) {
   return  (this.x <= ex) && (this.x + this.w >= ex) &&
@@ -101,9 +102,11 @@ function Canvas(canvas)
 	this.dragoffy = 0;
 	this.shapes = [];
 	this.ctx = canvas.getContext("2d");
-		
+	this.canvas = canvas;
 	var mystate = this;
-	setInterval(function() { mystate.redraw(); }, 10);
+	setInterval(function() { 
+		mystate.redraw(); 
+	}, 30);
 	
 	canvas.addEventListener("mousedown", function(e) {
 		var shapes = mystate.shapes
@@ -142,6 +145,9 @@ function Canvas(canvas)
 		}
 	}, false);
 }
+Canvas.prototype.redrawInterval = function() {
+	
+}
 Canvas.prototype.add = function(shape) {
 	this.shapes.push(shape);
 	this.valid = false;
@@ -160,7 +166,34 @@ Canvas.prototype.clear = function() {
 Canvas.prototype.draw = function() {
 	// only draw if we need to...
 	var shapes = this.shapes;
-	for(var i = 0; i < shapes.length; i++) {
+	//console.log(this.canvas.offsetLeft);
+	for(var i = 0; i < shapes.length; i++) {		
+		// do not let shapes exit the screen
+		console.log(this.canvas.height);
+		if(shapes[i].x <= this.canvas.offsetLeft) {
+			shapes[i].x = 0;
+			shapes[i].netvelocityx *= -1;
+			console.log("Left left");
+		}
+		if(shapes[i].x >= (this.canvas.offsetLeft + this.canvas.width)) {
+			shapes[i].x = (this.canvas.offsetLeft + this.canvas.width);
+			shapes[i].netvelocityx *= -1;
+			console.log("Left right");	
+		}
+		if(shapes[i].y <= this.canvas.offsetTop) {
+			shapes[i].y = 0;
+			shapes[i].netvelocityy *= -1;
+			console.log("Left top");
+		}
+		if(shapes[i].y >= (this.canvas.offsetTop + this.canvas.height)) {
+			shapes[i].y = this.canvas.offsetTop + this.canvas.height;
+			shapes[i].netvelocityy *= -1;
+			console.log("Left bottom");
+		}
+		
+		
+		
+		
 		shapes[i].draw(this.ctx);
 	}
     if(this.selection != null) {
