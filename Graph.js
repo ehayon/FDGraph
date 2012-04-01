@@ -8,6 +8,12 @@ function Graph(canvas_object) {
 	setInterval(function() { 
 		//if(!myGraph.canvas.dragging) {
 			myGraph.checkRedraw();
+			if(myGraph.canvas.dragging) {
+				for(var i = 0; i < myGraph.nodes.length; i++) {
+					var n = myGraph.nodes[i];
+					n.reset();
+				}
+			}
 			//}
 	}, 30);
 	// add elements to the canvas object
@@ -91,7 +97,12 @@ function Node() {
 	this.netforcey = 0;
 }
 Node.prototype = Object.create(new Circle());
-
+Node.prototype.reset = function() {
+	this.velocityx = 0;
+	this.velocityy = 0;
+	this.netforcex = 0;
+	this.netforcey = 0;
+}
 
 function Connection(node_a, node_b) {
 	Line.call(this, node_a.x, node_a.y, node_b.x, node_b.y);
@@ -99,7 +110,6 @@ function Connection(node_a, node_b) {
 	this.b = node_b;
 	this.line = new Line(node_a.x, node_b.y);
 	this.draggable = false;
-	this.force = 0;
 }
 Connection.prototype = Object.create(new Line());
 // we need to override the draw method so it updates on a redraw
