@@ -17,7 +17,7 @@ function Graph(canvas_object) {
 		}
 	}, 30);
 	// add elements to the canvas object
-	this.timestep = 100;
+	this.timestep = 150;
 	this.kineticenergy = 1;
 	this.total_node_velocity = 0;
 	this.done_rendering = false;

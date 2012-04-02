@@ -13,6 +13,9 @@ $(document).ready(function() {
 	var node8 = new Node("test", 70);
 	var node9 = new Node("test", 70);
 	var node10 = new Node("test", 70);
+	var node11 = new Node("test", 70);
+	var node12 = new Node("test", 70);
+	var node13 = new Node("test", 70);
 
 	
 	var connection1 = new Connection(node1, node2);
@@ -30,8 +33,11 @@ $(document).ready(function() {
 	var connection13 = new Connection(node8, node9);
 	var connection14 = new Connection(node9, node10);
 	var connection15 = new Connection(node10, node6);
+	var connection16 = new Connection(node11, node12);
+	var connection17 = new Connection(node12, node13);
+	var connection18 = new Connection(node13, node11);
 
-
+	
 	
 
 	myGraph.addConnection(connection1);
@@ -49,6 +55,10 @@ $(document).ready(function() {
 	myGraph.addConnection(connection13);
 	myGraph.addConnection(connection14);
 	myGraph.addConnection(connection15);
+	myGraph.addConnection(connection16);
+	myGraph.addConnection(connection17);
+	myGraph.addConnection(connection18);
+	
 	
 
 
@@ -63,6 +73,10 @@ $(document).ready(function() {
 	myGraph.addNode(node8);
 	myGraph.addNode(node9);
 	myGraph.addNode(node10);
+	myGraph.addNode(node11);
+	myGraph.addNode(node12);
+	myGraph.addNode(node13);
+	
 
 	
 	
