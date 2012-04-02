@@ -188,10 +188,6 @@ Canvas.prototype.draw = function() {
 			shapes[i].y = this.canvas.offsetTop + this.canvas.height;
 			shapes[i].netvelocityy *= -1;
 		}
-		
-		
-		
-		
 		shapes[i].draw(this.ctx);
 	}
     if(this.selection != null) {
