@@ -3,16 +3,16 @@ $(document).ready(function() {
 	var myCanvas = new Canvas(can);
 	var myGraph = new Graph(myCanvas);
 	// create some nodes and connections
-	var node1 = new Node();
-	var node2 = new Node();
-	var node3 = new Node();
-	var node4 = new Node();
-	var node5 = new Node();
-	var node6 = new Node();
-	var node7 = new Node();
-	var node8 = new Node();
-	var node9 = new Node();
-	var node10 = new Node();
+	var node1 = new Node("test", 200);
+	var node2 = new Node("test", 200);
+	var node3 = new Node("test", 200);
+	var node4 = new Node("test", 200);
+	var node5 = new Node("test", 200);
+	var node6 = new Node("test", 70);
+	var node7 = new Node("test", 70);
+	var node8 = new Node("test", 70);
+	var node9 = new Node("test", 70);
+	var node10 = new Node("test", 70);
 
 	
 	var connection1 = new Connection(node1, node2);
