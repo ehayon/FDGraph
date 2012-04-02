@@ -2,7 +2,7 @@ function Graph(canvas_object) {
 	this.nodes = [];
 	this.connections = [];
 	this.canvas = canvas_object;
-	this.damping = .0000005;
+	this.damping = .000006;
 	var myGraph = this;
 	
 	setInterval(function() { 
@@ -17,7 +17,7 @@ function Graph(canvas_object) {
 		}
 	}, 30);
 	// add elements to the canvas object
-	this.timestep = 1;
+	this.timestep = 100;
 	this.kineticenergy = 1;
 	this.total_node_velocity = 0;
 	this.done_rendering = false;
@@ -65,8 +65,8 @@ Graph.prototype.checkRedraw = function() {
 						node.netforcex += rep_force * Math.sin((rep_node.x - node.x)/rep_distance);
 						node.netforcey += rep_force * Math.sin((rep_node.y - node.y)/rep_distance);		
 					}
-					node.netforcex = (Math.abs(node.netforcex) < 1.5) ? 0 : node.netforcex;
-					node.netforcey = (Math.abs(node.netforcey) < 1.5) ? 0 : node.netforcey;
+					node.netforcex = (Math.abs(node.netforcex) < 1) ? 0 : node.netforcex;
+					node.netforcey = (Math.abs(node.netforcey) < 1) ? 0 : node.netforcey;
 					node.velocityx = (node.netforcex == 0) ? 0 : (node.velocityx + this.timestep * node.netforcex) * this.damping;
 					node.velocityy = (node.netforcey == 0) ? 0 : (node.velocityy + this.timestep * node.netforcey) * this.damping;
 				}
@@ -84,7 +84,6 @@ Graph.prototype.checkRedraw = function() {
 	} else {
 		this.canvas.valid = false;
 		this.done_rendering = false;
-		this.timestep++;
 	}
 }
 
