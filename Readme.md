@@ -9,28 +9,33 @@
 var canvas = document.getElementById("canvas");
 ```
 
-#####Create a new canvas object:
+#####Create a new Canvas object:
 ```javascript
 var myCanvas = new Canvas(canvas);
 ```
 
+#####Create a Graph object:
+```javascript
+var myGraph = new Graph(myCanvas);
+```
+
 #####To create a node:
 ```javascript
-var node = new Node();
+var node = new Node("label", charge);
 ```
 ```javascript
-var node1 = new Node();
-var node2 = new Node();
+var node1 = new Node("A", 100);
+var node2 = new Node("B", 120);
 ```
 
 #####To create a connection between two nodes:
 ```javascript
-var connection = new Connection(node1, node2)
+var edge = new Edge(node1, node2)
 ```
 
 #####Add objects to the canvas object:
 ```javascript
-myCanvas.add(connection);
-myCanvas.add(node1);
-myCanvas.add(node2);
+myGraph.add(connection);
+myGraph.add(node1);
+myGraph.add(node2);
 ```
