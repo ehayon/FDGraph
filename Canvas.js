@@ -37,7 +37,7 @@ Shape.prototype.drawBorder = function(ctx) {
  * h - height
  */
 function Rectangle(x, y, w, h) {
-	Shape.apply(this, arguments);
+	Shape.call(this, x, y);
 	this.w = w || 10;
 	this.h = h || 10;
 }
@@ -105,12 +105,12 @@ function Canvas(canvas)
 	this.dragoffy = 0;
 	this.shapes = [];
 	this.ctx = canvas.getContext("2d");
+	this.hoverFunction = function() {};
 	this.canvas = canvas;
 	var mystate = this;
 	setInterval(function() { 
 		mystate.redraw(); 
 	}, 30);
-	
 	canvas.addEventListener("mousedown", function(e) {
 		var shapes = mystate.shapes
 		mystate.dragging = true;
@@ -135,8 +135,12 @@ function Canvas(canvas)
 			mystate.dragging = false;
 		}
 	}, false);
+	canvas.addEventListener("mouseover", function(e) {
+		mystate.hoverFunction(e);
+	});
 	canvas.addEventListener("mousemove", function(e) {
-
+		mystate.hoverFunction(e);
+		
 		if(mystate.selection != null && mystate.dragging) {
             var x = e.x + document.body.scrollLeft - $(canvas).offset().left;
             var y = e.y + document.body.scrollTop - $(canvas).offset().top;
