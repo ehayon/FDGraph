@@ -1,16 +1,31 @@
-function Graph(c) {
+function Graph(c, gravitate_to_origin) {
 	this.nodes = [];
 	this.edges = [];
 	this.config = [];
 	this.config['canvas'] = c;
-	this.config['origin'] = 
+	this.config['origin'] = new Point(
+		this.config['canvas'].canvas.width / 2,
+		this.config['canvas'].canvas.height / 2
+	);
+	this.config['canvas'].add(new Circle(this.config['origin'].x, this.config['origin'].y, 2));
 	this.damping = .000005;
 	this.timestep = 150;
 	this.kineticenergy = 1;
 	this.total_node_velocity = 0;
+	this.gravitate_to_origin = (typeof(gravitate_to_origin) == 'undefined') ? true : gravitate_to_origin;
 	this.done_rendering = false;
-	
 	var g = this;
+	
+	// set up a hover event for the nodes
+	this.config['canvas'].hoverFunction = function(e) {
+		var x = e.x + document.body.scrollLeft - $(g.config['canvas'].canvas).offset().left;
+		var y = e.y + document.body.scrollTop - $(g.config['canvas'].canvas).offset().top;
+		for(var i = 0; i < g.nodes.length; i++) {
+			if(g.nodes[i].contains(x, y)) {
+		        console.log("Hover on node: " + g.nodes[i].label);
+			}
+		}
+	}
 	setInterval(function() { 
 		if(!g.done_rendering) {
 			g.checkRedraw();
@@ -50,25 +65,40 @@ Graph.prototype.checkRedraw = function() {
 		node.velocityx = 0;
 		node.velocityy = 0;
 		if(this.config['canvas'].selection == null || this.config['canvas'].selection != node) {
+			if(this.gravitate_to_origin) {
+				console.log("gravitate to origin");
+				// gravitate to, and repel from origin
+				var d = node.distance(this.config['origin']);
+				var af = .02 * Math.max(d, 1);
+				node.netforcex += af * Math.sin((this.config['origin'].x - node.x)/d);
+				node.netforcey += af * Math.sin((this.config['origin'].y - node.y)/d);
+				var rf = -1 * ((node.charge) / (d * d));
+				node.netforcex += rf * Math.sin((this.config['origin'].x - node.x)/d);
+				node.netforcey += rf * Math.sin((this.config['origin'].y - node.y)/d);
+			}		
+			
 			for(var j = 0; j < this.edges.length; j++) {
-				var con = this.edges[j];
+       		 	var con = this.edges[j];
 				if(con.a == node || con.b == node) {
 					// calculate the attractive force between nodes
 					var other_node = (con.a == node) ? con.b : con.a;
 					node.applyAttractiveForce(other_node);
-					// calculate the repulsive force between nodes
-					for(var k = 0; k < this.nodes.length; k++) {
-						var rep_node = this.nodes[k];
-						node.applyRepulsiveForce(rep_node);	
-					}
-					// we eventually want to stop the nodes from moving
-					node.netforcex = (Math.abs(node.netforcex) < 1) ? 0 : node.netforcex;
-					node.netforcey = (Math.abs(node.netforcey) < 1) ? 0 : node.netforcey;
-					// set the velocity of the nodes based on their net force
-					node.velocityx = (node.netforcex == 0) ? 0 : (node.velocityx + this.timestep * node.netforcex) * this.damping;
-					node.velocityy = (node.netforcey == 0) ? 0 : (node.velocityy + this.timestep * node.netforcey) * this.damping;
-				}
+
+				}		
 			}	
+			// calculate the repulsive force between nodes
+			for(var k = 0; k < this.nodes.length; k++) {
+				var rep_node = this.nodes[k];
+				node.applyRepulsiveForce(rep_node);	
+			}
+			
+			// we eventually want to stop the nodes from moving
+			node.netforcex = (Math.abs(node.netforcex) < 1) ? 0 : node.netforcex;
+			node.netforcey = (Math.abs(node.netforcey) < 1) ? 0 : node.netforcey;
+			// set the velocity of the nodes based on their net force
+			node.velocityx = (node.netforcex == 0) ? 0 : (node.velocityx + this.timestep * node.netforcex) * this.damping;
+			node.velocityy = (node.netforcey == 0) ? 0 : (node.velocityy + this.timestep * node.netforcey) * this.damping;
+			
 		}
 		
 		// move the nodes scaled by constant timestep
