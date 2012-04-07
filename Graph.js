@@ -155,7 +155,7 @@ Node.prototype.distance = function(n) {
 }
 Node.prototype.applyAttractiveForce = function(n) {
 	var distance = this.distance(n);
-	var force = .1 * Math.max(distance + 350, 1);
+	var force = .5 * Math.max(distance + 200, 1);
 	this.netforcex += force * Math.sin((n.x - this.x)/distance);
 	this.netforcey += force * Math.sin((n.y - this.y)/distance);
 }
