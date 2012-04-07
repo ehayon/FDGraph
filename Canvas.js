@@ -144,10 +144,11 @@ function Canvas(canvas)
 		if(mystate.selection != null && mystate.dragging) {
             var x = e.x + document.body.scrollLeft - $(canvas).offset().left;
             var y = e.y + document.body.scrollTop - $(canvas).offset().top;
-
 			var selected = mystate.selection;
 			mystate.selection.x = x - mystate.dragoffx;
 			mystate.selection.y = y - mystate.dragoffy;
+			//console.log("Selected: ("+x+", "+y+") - ("+mystate.selection.x+", "+mystate.selection.y+")");
+			
 			mystate.valid = false;		
 		}
 	}, false);
@@ -175,20 +176,20 @@ Canvas.prototype.draw = function() {
 	var shapes = this.shapes;
 	for(var i = 0; i < shapes.length; i++) {		
 		// do not let shapes exit the screen
-		if(shapes[i].x <= this.canvas.offsetLeft) {
+		if(shapes[i].x <= 0) {
 			shapes[i].x = 0;
 			shapes[i].netvelocityx *= -1;
 		}
-		if(shapes[i].x >= (this.canvas.offsetLeft + this.canvas.width)) {
-			shapes[i].x = (this.canvas.offsetLeft + this.canvas.width);
+		if(shapes[i].x >= this.canvas.width) {
+			shapes[i].x = this.canvas.width;
 			shapes[i].netvelocityx *= -1;
 		}
-		if(shapes[i].y <= this.canvas.offsetTop) {
+		if(shapes[i].y <= 0) {
 			shapes[i].y = 0;
 			shapes[i].netvelocityy *= -1;
 		}
-		if(shapes[i].y >= (this.canvas.offsetTop + this.canvas.height)) {
-			shapes[i].y = this.canvas.offsetTop + this.canvas.height;
+		if(shapes[i].y >= this.canvas.height) {
+			shapes[i].y = this.canvas.height;
 			shapes[i].netvelocityy *= -1;
 		}
 		shapes[i].draw(this.ctx);
