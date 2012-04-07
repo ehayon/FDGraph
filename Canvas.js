@@ -173,7 +173,6 @@ Canvas.prototype.clear = function() {
 Canvas.prototype.draw = function() {
 	// only draw if we need to...
 	var shapes = this.shapes;
-	//console.log(this.canvas.offsetLeft);
 	for(var i = 0; i < shapes.length; i++) {		
 		// do not let shapes exit the screen
 		if(shapes[i].x <= this.canvas.offsetLeft) {

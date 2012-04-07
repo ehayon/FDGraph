@@ -22,7 +22,7 @@ function Graph(c, gravitate_to_origin) {
 		var y = e.y + document.body.scrollTop - $(g.config['canvas'].canvas).offset().top;
 		for(var i = 0; i < g.nodes.length; i++) {
 			if(g.nodes[i].contains(x, y)) {
-		        console.log("Hover on node: " + g.nodes[i].label);
+				// the node g.nodes[i] is currently being hovered
 			}
 		}
 	}
@@ -66,7 +66,6 @@ Graph.prototype.checkRedraw = function() {
 		node.velocityy = 0;
 		if(this.config['canvas'].selection == null || this.config['canvas'].selection != node) {
 			if(this.gravitate_to_origin) {
-				console.log("gravitate to origin");
 				// gravitate to, and repel from origin
 				var d = node.distance(this.config['origin']);
 				var af = .02 * Math.max(d, 1);
