@@ -16,7 +16,8 @@ var myCanvas = new Canvas(canvas);
 
 #####Create a Graph object:
 ```javascript
-var myGraph = new Graph(myCanvas);
+/* var myGraph = Graph(canvas object, gravitate towards origin) */
+var myGraph = new Graph(myCanvas, true);
 ```
 
 #####To create a node:
